@@ -68,6 +68,10 @@ public class Building : MonoBehaviour
                     offerAvailable = true;
                 }
                 if (offerAvailable) {
+                    if (buildingType == "Business") {
+                        int bizRentOffer = CalculateSpeculatedPrice() / 100 * 5;
+                        offers.Append(new Offer("Rent", bizRentOffer));
+                    }
                     int rentOffer = CalculateSpeculatedPrice() / 100 * 3;
                     int variance = UnityEngine.Random.Range(1, rentOffer);
                     rentOffer = rentOffer - variance;
@@ -83,6 +87,9 @@ public class Building : MonoBehaviour
                     offerAvailable = true;
                 }
                 if (offerAvailable) {
+                    if (buildingType == "Business") {
+                        offers.Append(new Offer("Buy", CalculateSpeculatedPrice()));
+                    }
                     int buyOffer = CalculateSpeculatedPrice();
                     int variance = UnityEngine.Random.Range(1, buyOffer) / 2;
                     buyOffer = buyOffer - variance;
@@ -102,6 +109,9 @@ public class Building : MonoBehaviour
     }
     
     public int CalculateSpeculatedPrice() {
+        if (buildingType == "Business") {
+            return (int)(base_price * 1.4);
+        }
         int conditionMultiplier = condition/100*2;
         int sizeMultiplier = 1 + size/10;
         int speculatedPrice = base_price * conditionMultiplier * sizeMultiplier;
