@@ -3,7 +3,6 @@ using UnityEngine;
 public class Apartment : Building
 {
     public static int apartmentID = 1;
-    public int base_price;
     private GameManager manager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -16,7 +15,7 @@ public class Apartment : Building
         base_price = 200000;
         maintenanceFee = 20;
         attractiveness = 60;
-        condition_drop = 0.8f;
+        condition_drop = 1;
         manager = GameManager.instance;
     }
 

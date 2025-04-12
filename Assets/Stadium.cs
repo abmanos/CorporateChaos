@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Stadium : Building
 {
-    public int base_price;
     private GameManager manager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -14,7 +13,7 @@ public class Stadium : Building
         base_price = 5000000;
         maintenanceFee = 5000;
         attractiveness = 5;
-        condition_drop = 1.0f;
+        condition_drop = 1;
         manager = GameManager.instance;
     }
 

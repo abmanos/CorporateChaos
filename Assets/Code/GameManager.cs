@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     public int currentDay;
     public float timeElapsed = 0f;
     
-    void Awake()
+    void Start()
     {
         if (instance == null)
         {
@@ -190,7 +190,7 @@ public class GameManager : MonoBehaviour
         {
             if (building.ownerID == playerID)
             {
-                totalValue += building.currentValue;
+                totalValue += building.base_price;
             }
         }
         
@@ -259,7 +259,7 @@ public class GameManager : MonoBehaviour
             if (building.ownerID == playerID)
             {
                 building.ownerID = -1; // Bank-owned
-                building.SetForSale(true, Mathf.RoundToInt(building.currentValue * 0.7f)); // 30% discount
+
             }
         }
         
