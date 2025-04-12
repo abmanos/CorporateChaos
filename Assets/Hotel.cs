@@ -23,8 +23,8 @@ public class Hotel : Building
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(buildingName.ToString());
-        Debug.Log(buildingType);
-        Debug.Log(manager.currentDay);
+        //Debug.Log(buildingName.ToString());
+        //Debug.Log(buildingType);
+        //Debug.Log(manager.currentDay);
     }
 }
