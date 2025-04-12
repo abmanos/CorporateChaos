@@ -10,7 +10,7 @@ public class Shed : MonoBehaviour
     public double priceIncrease;
     public int condition;
     public int conditionChange;
-    public boolean maintenancePaid;
+    public bool maintenancePaid;
 
 
 
@@ -20,9 +20,9 @@ public class Shed : MonoBehaviour
         customers = 100;
         maintenanceFee = 500;
         rent = 800;
-        sellingPrice = 50,000
+        sellingPrice = 50000;
         maintenancePaid = false;
-        priceIncrease = (sellingPrice * 0.03)
+        priceIncrease = (sellingPrice * 0.03);
     }
 
     // Update is called once per frame
@@ -31,7 +31,7 @@ public class Shed : MonoBehaviour
         
     }
 
-    void Purchase(GameObject buyer, boolean payingMaintenance) {
+    void Purchase(GameObject buyer, bool payingMaintenance) {
         owner = buyer;
         maintenancePaid = payingMaintenance;
         // subtract player money later or maybe not here- maybe on player end instead

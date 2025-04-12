@@ -10,7 +10,7 @@ public class Mansion : MonoBehaviour
     public double priceIncrease;
     public int condition;
     public int conditionChange;
-    public boolean maintenancePaid;
+    public bool maintenancePaid;
 
 
 
@@ -18,11 +18,11 @@ public class Mansion : MonoBehaviour
     void Start()
     {
         customers = 20;
-        maintenanceFee = 10,000;
-        rent = 20,000;
-        sellingPrice = 1,000,000
+        maintenanceFee = 10000;
+        rent = 20000;
+        sellingPrice = 1000000;
         maintenancePaid = false;
-        priceIncrease = (sellingPrice * 0.03)
+        priceIncrease = (sellingPrice * 0.03);
     }
 
     // Update is called once per frame
@@ -31,7 +31,7 @@ public class Mansion : MonoBehaviour
         
     }
 
-    void Purchase(GameObject buyer, boolean payingMaintenance) {
+    void Purchase(GameObject buyer, bool payingMaintenance) {
         owner = buyer;
         maintenancePaid = payingMaintenance;
         // subtract player money later or maybe not here- maybe on player end instead
