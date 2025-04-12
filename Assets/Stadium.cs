@@ -11,8 +11,8 @@ public class Stadium : Building
         buildingType = "Stadium";
         condition = Random.Range(1, 101);
         size = Random.Range(1, 4);
-        base_price = 1000000;
-        maintenanceFee = 100000;
+        base_price = 5000000;
+        maintenanceFee = 5000;
         attractiveness = 5;
         condition_drop = 1.0f;
         manager = GameManager.instance;
