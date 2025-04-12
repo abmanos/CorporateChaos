@@ -2,11 +2,17 @@ using UnityEngine;
 
 public class Shed : Building
 {
-    public static int shedID = 1;
-    public int base_price;
-    private GameManager manager;
-    
-    private int lastCheckedDay = -7;
+    public GameObject owner;
+    public int customers;
+    public double maintenanceFee;
+    public double rent;
+    public double sellingPrice;
+    public double priceIncrease;
+    public int condition;
+    public int conditionChange;
+    public bool maintenancePaid;
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -18,12 +24,9 @@ public class Shed : Building
         size = Random.Range(1, 4);
         base_price = 50000;
         rent = 800;
-        maintenanceFee = 5;
-        attractiveness = 60;
-        condition_drop = 0.8f;
+        sellingPrice = 50000;
         maintenancePaid = false;
-        priceIncrease = (sellingPrice * 0.03)
-        manager = GameManager.instance;
+        priceIncrease = (sellingPrice * 0.03);
     }
 
 
@@ -49,7 +52,7 @@ public class Shed : Building
         }
     }
 
-    void Purchase(GameObject buyer, boolean payingMaintenance) {
+    void Purchase(GameObject buyer, bool payingMaintenance) {
         owner = buyer;
         maintenancePaid = payingMaintenance;
         // subtract player money later or maybe not here- maybe on player end instead

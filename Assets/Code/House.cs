@@ -2,28 +2,27 @@ using UnityEngine;
 
 public class House : Building
 {
-    public static int houseID = 1;
-    public int base_price;
-    private GameManager manager;
-    
-    private int lastCheckedDay = -7;
+    public GameObject owner;
+    public int customers;
+    public double maintenanceFee;
+    public double rent;
+    public double sellingPrice;
+    public double priceIncrease;
+    public int condition;
+    public int conditionChange;
+    public bool maintenancePaid;
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        buildingName = "House " + houseID;
-        shedID = houseID + 1;
-        buildingType = "House";
-        condition = Random.Range(1, 101);
-        size = Random.Range(1, 4);
-        base_price = 200000;
+        customers = 50;
+        maintenanceFee = 1500;
         rent = 12500;
-        maintenanceFee = 50;
-        attractiveness = 60;
-        condition_drop = 0.8f;
+        sellingPrice = 200000;
         maintenancePaid = false;
-        priceIncrease = (sellingPrice * 0.03)
-        manager = GameManager.instance;
+        priceIncrease = (sellingPrice * 0.03);
     }
 
     // Update is called once per frame
@@ -49,7 +48,7 @@ public class House : Building
         }
     }
 
-    void Purchase(GameObject buyer, boolean payingMaintenance) {
+    void Purchase(GameObject buyer, bool payingMaintenance) {
         owner = buyer;
         maintenancePaid = payingMaintenance;
         // subtract player money later or maybe not here- maybe on player end instead
