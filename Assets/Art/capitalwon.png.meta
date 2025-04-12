@@ -234,7 +234,12 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      capitalwon_0: -6759462339181834782
+      capitalwon_1: 6731667204071263355
+      capitalwon_2: -1507878260068709191
+      capitalwon_3: -7266422105253096309
+      capitalwon_4: 7626157621674786742
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
