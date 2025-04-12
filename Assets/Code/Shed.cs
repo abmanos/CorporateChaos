@@ -1,34 +1,52 @@
 using UnityEngine;
 
-public class Shed : MonoBehaviour
+public class Shed : Building
 {
-    public GameObject owner;
-    public int customers;
-    public double maintenanceFee;
-    public double rent;
-    public double sellingPrice;
-    public double priceIncrease;
-    public int condition;
-    public int conditionChange;
-    public boolean maintenancePaid;
-
-
+    public static int shedID = 1;
+    public int base_price;
+    private GameManager manager;
+    
+    private int lastCheckedDay = -7;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        customers = 100;
-        maintenanceFee = 500;
+        buildingName = "Shed " + apartmentID;
+        shedID = shedID + 1;
+        buildingType = "Shed";
+        condition = Random.Range(1, 101);
+        size = Random.Range(1, 4);
+        base_price = 50000;
         rent = 800;
-        sellingPrice = 50,000
+        maintenanceFee = 5;
+        attractiveness = 60;
+        condition_drop = 0.8f;
         maintenancePaid = false;
         priceIncrease = (sellingPrice * 0.03)
+        manager = GameManager.instance;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        
+        if (owner == null) return;
+
+        int currentDay = GameManager.instance.currentDay + (GameManager.instance.currentMonth * 30) + (GameManager.instance.currentYear * 360);
+        if (currentDay - lastCheckedDay >= 7)
+        {
+            lastCheckedDay = currentDay;
+
+            if (Random.value < 0.15f)
+            {
+                condition -= conditionChange;
+                PlayerData player = GameManager.instance.players.Find(p => p.playerID == owner.GetComponent<Player>().playerID);
+                if (player != null)
+                {
+                    GameManager.instance.DeductMoney(player.playerID, 100);
+                    Debug.Log($"[Event] Shed condition worsened! Player {player.playerID} lost $100.");
+                }
+            }
+        }
     }
 
     void Purchase(GameObject buyer, boolean payingMaintenance) {
