@@ -52,11 +52,33 @@ public class PlayerAttributes : MonoBehaviour
     {
 
         int income = 0;
+        int leftover = 0;
         moneyText.text = "$" + money;
         invcount.text = buildings.Count + "/5";  
+        if(Input.GetKeyDown(KeyCode.Alpha1) && buildings.Count >= 1){
+            money += (int)(buildings[0].GetComponent<Property>().price * 0.8);
+            buildings.RemoveAt(0);
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha2) && buildings.Count >= 2){
+            money += (int)(buildings[1].GetComponent<Property>().price * 0.8);
+            buildings.RemoveAt(1);
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha3) && buildings.Count >= 3){
+            money += (int)(buildings[2].GetComponent<Property>().price * 0.8);
+            buildings.RemoveAt(1);
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha4) && buildings.Count >= 4){
+            money += (int)(buildings[3].GetComponent<Property>().price * 0.8);
+            buildings.RemoveAt(3);
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha5) && buildings.Count == 5){
+            money += (int)(buildings[4].GetComponent<Property>().price * 0.8);
+            buildings.RemoveAt(4);
+        }
         if(buildings.Count != 0){
             index = 0;
             income = 0;
+            leftover = 5 - buildings.Count;
             foreach(GameObject building in buildings){
                 Property prop = building.GetComponent<Property>();
                 income += prop.monthlyIncome - (prop.dailyExpenses * 30);
@@ -97,10 +119,32 @@ public class PlayerAttributes : MonoBehaviour
             incomeText.color = Color.red;
         }
         incomeText.text = "+$" + income + "/mo";
-
-        if(Input.GetKeyDown(KeyCode.Alpha1)){
-            //sell prop 1
+        if(buildings.Count == 0){
+            invslot1.SetActive(false);
+            invslot2.SetActive(false);
+            invslot3.SetActive(false);
+            invslot4.SetActive(false);
+            invslot5.SetActive(false);
         }
+        if(buildings.Count == 1){
+            invslot2.SetActive(false);
+            invslot3.SetActive(false);
+            invslot4.SetActive(false);
+            invslot5.SetActive(false);
+        }
+        if(buildings.Count == 2){
+            invslot3.SetActive(false);
+            invslot4.SetActive(false);
+            invslot5.SetActive(false);
+        }
+        if(buildings.Count == 3){
+            invslot4.SetActive(false);
+            invslot5.SetActive(false);
+        }
+        if(buildings.Count == 4){
+            invslot5.SetActive(false);
+        }
+
 
     }
 

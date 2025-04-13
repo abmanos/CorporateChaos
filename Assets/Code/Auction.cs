@@ -23,7 +23,6 @@ public class Auction : MonoBehaviour
     [SerializeField] TextMeshProUGUI dailyCostText;
 
     public GameObject auctionbg;
-    // simply for testing
     public GameObject hotel1;
     public int hotel1Price;
     public GameObject hotel2;
