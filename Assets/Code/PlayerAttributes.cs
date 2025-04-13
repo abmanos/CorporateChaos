@@ -7,6 +7,12 @@ public class PlayerAttributes : MonoBehaviour
 {
     public int playerID = 0;
     public int money = 100000;
+    public int debt = 0;
+    public int dailyExpense = 0;
+    public int monthlyIncome = 0;
+
+    
+
     public List<GameObject> buildings;
 
     [SerializeField] TextMeshProUGUI moneyText;
@@ -42,6 +48,11 @@ public class PlayerAttributes : MonoBehaviour
 
     }
 
+    // Integrate later
+    public void requestLoan(int amount){
+        requestLoan(amount);
+    }
+
     public void buyProperty(GameObject building, int price){
         buildings.Add(building);
         money = money - price;
@@ -50,14 +61,16 @@ public class PlayerAttributes : MonoBehaviour
     public void dailyExpenses(){
         foreach(GameObject bld in buildings){
             Property prop = bld.GetComponent<Property>();
-            money -= prop.dailyExpenses;
+            dailyExpense = prop.dailyExpenses;
+            money -= dailyExpense;
         }
     }
 
-    public void monthlyIncome(){
+    public void monthlyIncomes(){
         foreach(GameObject bld in buildings){
             Property prop = bld.GetComponent<Property>();
-            money += prop.monthlyIncome;
+            monthlyIncome = prop.monthlyIncome;
+            money += monthlyIncome;
         }
     }
 }

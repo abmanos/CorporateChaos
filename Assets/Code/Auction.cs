@@ -197,7 +197,7 @@ public class Auction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // auction every minute
+        // auction every month
         if(time > 15.0f && swap){
             time = 0.0f;
             startAuction();

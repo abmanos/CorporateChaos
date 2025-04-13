@@ -58,7 +58,7 @@ public class GameController : MonoBehaviour
     }
 
     void monthlyTrigger(){
-        player.GetComponent<PlayerAttributes>().monthlyIncome();
+        player.GetComponent<PlayerAttributes>().monthlyIncomes();
 
     }
 
