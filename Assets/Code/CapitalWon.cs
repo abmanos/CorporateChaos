@@ -3,7 +3,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
 
-public class Bank
+public class Bank : MonoBehaviour
 {
   public GameObject player; //db
   public PlayerAttributes playerAttributes1;
@@ -23,9 +23,9 @@ public class Bank
   [SerializeField] TextMeshProUGUI loanAmountText;
   [SerializeField] TextMeshProUGUI deadlineText;
 
-  public GameObject debtbg;
-  public GameObject bankLoanfg;
-  public GameObject bankPayfg;
+  public GameObject loanReminder;
+  public GameObject bankOffers;
+  public GameObject bankRepay;
 
   // 2 screens aka 2 parents 
   void Start()
@@ -33,6 +33,8 @@ public class Bank
     loanAmount = 0;
     activeDeadline = false;
     playerAttributes1 = player.GetComponent<PlayerAttributes>();
+    loanReminder.SetActive(false);
+    bankOffers.SetActive(false);
 
   }
 
@@ -41,11 +43,14 @@ public class Bank
   {
     if (Input.GetKeyDown(KeyCode.B))
     {
-      if (!loaning)
+      if (!loaning) {
         requestLoanAmounts();
-      if (Input.GetKeyDown(KeyCode.Alpha1))
-      {
+        bankOffers.SetActive(true);
+      }
+      if (Input.GetKeyDown(KeyCode.Alpha1))      {
         // Player choose safe
+              Debug.Log("ABC");
+
         requestLoan(safeOffer);
       }
       else if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -57,15 +62,21 @@ public class Bank
       {
         // choose risky
         requestLoan(riskyOffer);
-      }
-
-    }
+      }   
     else
     {
-      // ALready loaned
-      // Show pay button and exit button
-      // Check if deadline date is reached
+      if (activeDeadline && (GameController.day == deadlineDay) 
+        && (GameController.month == deadlineMonth) && (GameController.year == deadlineYear)) {
+            Debug.Log("You are too late to pay. You have lost all your money. You lose.");
+            playerAttributes1.money = 0;
+            // Make sure to destroy the game later
+        } 
+
+      Debug.Log("You are already actively loaning. You have the option to pay your debts now.");
+      // Make pay and exit button
+
     }
+  }
   }
 
 public void requestLoanAmounts()
@@ -89,15 +100,22 @@ public void requestLoanAmounts()
 // On click number 1, 2, or 3
 void requestLoan(int requestedAmount)
 {
+        Debug.Log("ABCfff");
+
   playerAttributes1.money += requestedAmount;
   loanAmount = requestedAmount;
   activeDeadline = true;
-  //deadlineYear = currentYear + 1;
-  //deadlineMonth = currentMonth;
-  //deadlineDay = currentDay;
+  
+  deadlineYear = GameController.year + 1;
+  deadlineMonth = GameController.month;
+  deadlineDay = GameController.day;
+  loaning = true;
 
-  // Show active deadline and loan amount
-  Debug.Log("Loan of $" + requestedAmount);
+  bankOffers.SetActive(false);
+  loanReminder.SetActive(true);
+  
+  //Show active deadline and loan amount
+  Debug.Log("Loan of $" + requestedAmount + "and deadline of " + deadlineDay + "/" + deadlineMonth + "/" + deadlineYear);
 }
 
 
@@ -108,6 +126,9 @@ void playerPays()
     playerAttributes1.money -= loanAmount;
     Debug.Log("Player has successfully paid $" + loanAmount + ". Remaining balance: $" + playerAttributes1.money);
     activeDeadline = false;
+    loaning = false;
+    loanReminder.SetActive(false);
+    bankOffers.SetActive(true);
   }
   else
   {

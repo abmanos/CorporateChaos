@@ -4,9 +4,9 @@ using TMPro;
 public class GameController : MonoBehaviour
 {
     public float time;
-    public int day;
-    public int month;
-    public int year;
+    public static int day;
+    public static int month;
+    public static int year;
     [SerializeField] TextMeshProUGUI dateText;
     public GameObject player;
     public PlayerAttributes attrib;
