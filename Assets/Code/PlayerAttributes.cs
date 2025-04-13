@@ -169,6 +169,7 @@ public class PlayerAttributes : MonoBehaviour
             Property prop = bld.GetComponent<Property>();
             dailyExpense = prop.dailyExpenses;
             money -= dailyExpense;
+            monthlyIncome = prop.monthlyIncome;
         }
     }
 
