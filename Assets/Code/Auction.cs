@@ -84,7 +84,36 @@ public class Auction : MonoBehaviour
     public int mansion2Price;
     public GameObject mansion3;
     public int mansion3Price;
-
+    public GameObject apartment1;
+    public int apartment1Price;
+    public GameObject apartment2;
+    public int apartment2Price;
+    public GameObject apartment3;
+    public int apartment3Price;
+    public GameObject apartment4;
+    public int apartment4Price;
+    public GameObject apartment5;
+    public int apartment5Price;
+    public GameObject apartment6;
+    public int apartment6Price;
+    public GameObject apartment7;
+    public int apartment7Price;
+    public GameObject shop1;
+    public int shop1Price;
+    public GameObject shop2;
+    public int shop2Price;
+    public GameObject shop3;
+    public int shop3Price;
+    public GameObject shop4;
+    public int shop4Price;
+    public GameObject shop5;
+    public int shop5Price;
+    public GameObject shop6;
+    public int shop6Price;
+    public GameObject stadium;
+    public int stadiumPrice;
+    public GameObject casino;
+    public int casinoPrice;
     
     
 
@@ -127,6 +156,25 @@ public class Auction : MonoBehaviour
         unownedBuildings.Add((mansion1, mansion1Price));
         unownedBuildings.Add((mansion2, mansion2Price));
         unownedBuildings.Add((mansion3, mansion3Price));
+        // apartments
+        unownedBuildings.Add((apartment1, apartment1Price));
+        unownedBuildings.Add((apartment2, apartment2Price));
+        unownedBuildings.Add((apartment3, apartment3Price));
+        unownedBuildings.Add((apartment4, apartment4Price));
+        unownedBuildings.Add((apartment5, apartment5Price));
+        unownedBuildings.Add((apartment6, apartment6Price));
+        unownedBuildings.Add((apartment7, apartment7Price));
+        //shops
+        unownedBuildings.Add((shop1, shop1Price));
+        unownedBuildings.Add((shop2, shop2Price));
+        unownedBuildings.Add((shop3, shop3Price));
+        unownedBuildings.Add((shop4, shop4Price));
+        unownedBuildings.Add((shop5, shop5Price));
+        unownedBuildings.Add((shop6, shop6Price));
+        // casino
+        unownedBuildings.Add((casino, casinoPrice));
+        // stadium
+        unownedBuildings.Add((stadium, stadiumPrice));
         
     }
 
@@ -150,24 +198,24 @@ public class Auction : MonoBehaviour
     void Update()
     {
         // auction every minute
-        if(time > 30.0f && swap){
+        if(time > 15.0f && swap){
             time = 0.0f;
             startAuction();
             swap = false;
         }
         if(!swap){
-            timerText.text = "" + System.Math.Round(30.0f-time,0);
+            timerText.text = "" + System.Math.Round(15.0f-time,0);
             if(Input.GetKeyDown(KeyCode.Y) && attrib.money >= currentPrice){
                 player.GetComponent<PlayerAttributes>().buyProperty(currentBuilding, currentPrice);
                 unownedBuildings.RemoveAt(rng);
-                time = 30.0f;
+                time = 15.0f;
             }
             if(Input.GetKeyDown(KeyCode.N)){
-                time = 30.0f;
+                time = 15.0f;
             }
         }
         // no auction for 30 seconds
-        if(time > 30.0f && !swap){
+        if(time > 15.0f && !swap){
             time = 0.0f;
             swap = true;
             timerText.text = "";

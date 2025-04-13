@@ -31,6 +31,13 @@ public class PlayerAttributes : MonoBehaviour
                 income += prop.monthlyIncome - (prop.dailyExpenses * 30);
             }
         }
+        if(income > 0){
+            incomeText.color = Color.green;
+        } else if(income == 0){
+            incomeText.color = Color.gray;
+        } else {
+            incomeText.color = Color.red;
+        }
         incomeText.text = "+$" + income + "/mo";
 
     }
