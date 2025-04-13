@@ -1,7 +1,10 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.Rendering.Universal;
+using Microsoft.Unity.VisualStudio.Editor;
+using UnityEngine.UI;
 
 public class PlayerAttributes : MonoBehaviour
 {
@@ -10,6 +13,7 @@ public class PlayerAttributes : MonoBehaviour
     public int debt = 0;
     public int dailyExpense = 0;
     public int monthlyIncome = 0;
+    public int index = 0;
 
     
 
@@ -17,6 +21,24 @@ public class PlayerAttributes : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI moneyText;
     [SerializeField] TextMeshProUGUI incomeText;
+
+    [SerializeField] TextMeshProUGUI invcount;
+
+    public GameObject invslot1;
+    [SerializeField] TextMeshProUGUI invslot1text;
+    public GameObject invslot1img;
+    public GameObject invslot2;
+    [SerializeField] TextMeshProUGUI invslot2text;
+    public GameObject invslot2img;
+    public GameObject invslot3;
+    [SerializeField] TextMeshProUGUI invslot3text;
+    public GameObject invslot3img;
+    public GameObject invslot4;
+    [SerializeField] TextMeshProUGUI invslot4text;
+    public GameObject invslot4img;
+    public GameObject invslot5;
+    [SerializeField] TextMeshProUGUI invslot5text;
+    public GameObject invslot5img;
     
     void Start()
     {
@@ -28,13 +50,43 @@ public class PlayerAttributes : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         int income = 0;
-        moneyText.text = "$" + money;     
+        moneyText.text = "$" + money;
+        invcount.text = buildings.Count + "/5";  
         if(buildings.Count != 0){
+            index = 0;
             income = 0;
             foreach(GameObject building in buildings){
                 Property prop = building.GetComponent<Property>();
                 income += prop.monthlyIncome - (prop.dailyExpenses * 30);
+                if(index == 0){
+                    invslot1.SetActive(true);
+                    invslot1text.text = "$" + (int)(prop.price * 0.8);
+                    invslot1img.GetComponent<UnityEngine.UI.Image>().sprite = building.GetComponent<SpriteRenderer>().sprite; 
+                }
+                if(index == 1){
+                    invslot2.SetActive(true);
+                    invslot2text.text = "$" + (int)(prop.price * 0.8);
+                    invslot2img.GetComponent<UnityEngine.UI.Image>().sprite = building.GetComponent<SpriteRenderer>().sprite; 
+                }
+                if(index == 2){
+                    invslot3.SetActive(true);
+                    invslot3text.text = "$" + (int)(prop.price * 0.8);
+                    invslot3img.GetComponent<UnityEngine.UI.Image>().sprite = building.GetComponent<SpriteRenderer>().sprite; 
+                }
+                if(index == 3){
+                    invslot4.SetActive(true);
+                    invslot4text.text = "$" + (int)(prop.price * 0.8);
+                    invslot4img.GetComponent<UnityEngine.UI.Image>().sprite = building.GetComponent<SpriteRenderer>().sprite; 
+                }
+                if(index == 4){
+                    invslot5.SetActive(true);
+                    invslot5text.text = "$" + (int)(prop.price * 0.8);
+                    invslot5img.GetComponent<UnityEngine.UI.Image>().sprite = building.GetComponent<SpriteRenderer>().sprite; 
+                
+                }
+                index++;
             }
         }
         if(income > 0){
@@ -45,6 +97,10 @@ public class PlayerAttributes : MonoBehaviour
             incomeText.color = Color.red;
         }
         incomeText.text = "+$" + income + "/mo";
+
+        if(Input.GetKeyDown(KeyCode.Alpha1)){
+            //sell prop 1
+        }
 
     }
 

@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Property : MonoBehaviour
 {
+    public int price;
     public int monthlyIncome;
     public int dailyExpenses;
     public int rng;
