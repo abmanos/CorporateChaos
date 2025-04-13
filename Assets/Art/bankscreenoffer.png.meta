@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      bankscreenoffer_0: -7613975382041661930
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
