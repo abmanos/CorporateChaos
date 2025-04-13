@@ -54,7 +54,7 @@ public class PlayerAttributes : MonoBehaviour
         int income = 0;
         int leftover = 0;
         moneyText.text = "$" + money;
-        invcount.text = buildings.Count + "/5";  
+        invcount.text = buildings.Count + "/5 properties";  
         if(Input.GetKeyDown(KeyCode.Alpha1) && buildings.Count >= 1){
             money += (int)(buildings[0].GetComponent<Property>().price * 0.8);
             buildings.RemoveAt(0);
