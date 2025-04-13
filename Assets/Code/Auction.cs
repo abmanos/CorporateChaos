@@ -77,6 +77,14 @@ public class Auction : MonoBehaviour
     public int house7Price;
     public GameObject house8;
     public int house8Price;
+
+    public GameObject mansion1;
+    public int mansion1Price;
+    public GameObject mansion2;
+    public int mansion2Price;
+    public GameObject mansion3;
+    public int mansion3Price;
+
     
     
 
@@ -115,6 +123,10 @@ public class Auction : MonoBehaviour
         unownedBuildings.Add((house6, house6Price));
         unownedBuildings.Add((house7, house7Price));
         unownedBuildings.Add((house8, house8Price));
+        // mansions
+        unownedBuildings.Add((mansion1, mansion1Price));
+        unownedBuildings.Add((mansion2, mansion2Price));
+        unownedBuildings.Add((mansion3, mansion3Price));
         
     }
 
@@ -129,7 +141,7 @@ public class Auction : MonoBehaviour
         incomeText.text = "Income/mo: $" + prop.monthlyIncome;
         dailyCostText.text = "Daily Expenses: $" + prop.dailyExpenses;
         auctionText.text = currentBuilding.name + " is now on Auction for $" + currentPrice;
-        purchaseText.text = "Do you want to purchase? (B)";
+        purchaseText.text = "Do you want to purchase? Yes (Y) No (N)";
         auctionbg.SetActive(true);
 
     }
@@ -145,9 +157,12 @@ public class Auction : MonoBehaviour
         }
         if(!swap){
             timerText.text = "" + System.Math.Round(30.0f-time,0);
-            if(Input.GetKeyDown(KeyCode.B) && attrib.money >= currentPrice){
+            if(Input.GetKeyDown(KeyCode.Y) && attrib.money >= currentPrice){
                 player.GetComponent<PlayerAttributes>().buyProperty(currentBuilding, currentPrice);
                 unownedBuildings.RemoveAt(rng);
+                time = 30.0f;
+            }
+            if(Input.GetKeyDown(KeyCode.N)){
                 time = 30.0f;
             }
         }

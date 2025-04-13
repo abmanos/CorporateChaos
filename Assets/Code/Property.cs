@@ -11,7 +11,7 @@ public class Property : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rng = Random.Range((int)(monthlyIncome / 1.8), (int)(monthlyIncome * 1.15));
+        rng = Random.Range((int)(monthlyIncome / 2.5), (int)(monthlyIncome * 1.2));
         dailyExpenses = rng/30;
     }
 

@@ -9,9 +9,8 @@ public class PlayerAttributes : MonoBehaviour
     public int money = 100000;
     public List<GameObject> buildings;
 
-    // this is just to test, remove later
-    public GameObject testbuilding;
     [SerializeField] TextMeshProUGUI moneyText;
+    [SerializeField] TextMeshProUGUI incomeText;
     
     void Start()
     {
@@ -23,11 +22,17 @@ public class PlayerAttributes : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.P)){
-            buyProperty(testbuilding, 200000);
+        int income = 0;
+        moneyText.text = "$" + money;     
+        if(buildings.Count != 0){
+            income = 0;
+            foreach(GameObject building in buildings){
+                Property prop = building.GetComponent<Property>();
+                income += prop.monthlyIncome - (prop.dailyExpenses * 30);
+            }
         }
-        moneyText.text = "$" + money;
-        
+        incomeText.text = "+$" + income + "/mo";
+
     }
 
     public void buyProperty(GameObject building, int price){
