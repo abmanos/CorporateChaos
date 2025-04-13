@@ -9,6 +9,10 @@ public class GameController : MonoBehaviour
     public static int year;
     [SerializeField] TextMeshProUGUI dateText;
     public GameObject player;
+    public GameObject WinEndGame;
+    public GameObject LoseEndGame;
+    public GameObject gameController;
+    public GameObject auction;
     public PlayerAttributes attrib;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -67,8 +71,15 @@ public class GameController : MonoBehaviour
     }
 
     void endGame(bool won){
-        string result = won ? "Won!" : "Lost :(";  
-        dateText.text = "";
-        Debug.Log("Game finished, you " + result);
+        if (won) {
+            WinEndGame.SetActive(true);
+        }
+        else {
+            LoseEndGame.SetActive(true);
+        }
+        
+        auction.SetActive(false);
+        gameController.SetActive(false);
+        
     }
 }

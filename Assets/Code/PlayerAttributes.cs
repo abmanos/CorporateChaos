@@ -75,6 +75,12 @@ public class PlayerAttributes : MonoBehaviour
             money += (int)(buildings[4].GetComponent<Property>().price * 0.8);
             buildings.RemoveAt(4);
         }
+        if(Input.GetKeyDown(KeyCode.L)) {
+            money -= 100000;
+        }
+        if(Input.GetKeyDown(KeyCode.K)) {
+            money += 100000;
+        }
         if(buildings.Count != 0){
             index = 0;
             income = 0;
