@@ -14,11 +14,13 @@ public class GameController : MonoBehaviour
     public GameObject gameController;
     public GameObject auction;
     public PlayerAttributes attrib;
+    public GameObject bank;
+    public bool endless = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         attrib = player.GetComponent<PlayerAttributes>();
-        time = Time.time;
+        time = 0;
         day = 1;
         month = 1;
         year = 1;
@@ -27,7 +29,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(attrib.money > 5000000){
+        if(attrib.money > 5000000 && !endless){
             endGame(true);
         }
         if(attrib.money < 0){
@@ -51,14 +53,15 @@ public class GameController : MonoBehaviour
             }
             time = 0.0f;
         }
-        dateText.text = "Year" + year + ", " + month + "/" + day;
-        if(year == 6){
+        dateText.text = "Year " + year + ", " + month + "/" + day;
+        if(year == 6 && !endless){
             endGame(false);
         }
     }
 
     void dailyTrigger(){
         player.GetComponent<PlayerAttributes>().dailyExpenses();
+        bank.GetComponent<Bank>().dailyUpdate();
     }
 
     void monthlyTrigger(){
@@ -81,5 +84,9 @@ public class GameController : MonoBehaviour
         auction.SetActive(false);
         gameController.SetActive(false);
         
+    }
+
+    public void endlessMode(){
+        endless = true;
     }
 }

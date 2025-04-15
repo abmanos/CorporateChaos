@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using System.ComponentModel;
 
 public class Bank : MonoBehaviour
 {
@@ -9,9 +11,6 @@ public class Bank : MonoBehaviour
   public PlayerAttributes playerAttributes1;
   int loanAmount = 0;
   public bool activeDeadline;
-  public int deadlineYear;
-  public int deadlineMonth;
-  public int deadlineDay;
   public bool loaning = false;
   bool bankScreenOn = false;
   bool repayScreenOn = false;
@@ -19,6 +18,7 @@ public class Bank : MonoBehaviour
   public int safeOffer;
   public int mediumOffer;
   public int riskyOffer;
+  public int deadlineDays;
   [SerializeField] TextMeshProUGUI safeOfferText;
   [SerializeField] TextMeshProUGUI mediumOfferText;
   [SerializeField] TextMeshProUGUI riskyOfferText;
@@ -28,8 +28,11 @@ public class Bank : MonoBehaviour
   public GameObject loanReminder;
   public GameObject bankOffers;
   public GameObject bankRepay;
+  public GameObject offerClose;
+  public GameObject repayClose;
+  public Button offersButton;
+  public Button repayButton;
 
-  // 2 screens aka 2 parents 
   void Start()
   {
     loanAmount = 0;
@@ -38,53 +41,59 @@ public class Bank : MonoBehaviour
     loanReminder.SetActive(false);
     bankOffers.SetActive(false);
     bankRepay.SetActive(false);
+    offersButton = offerClose.GetComponent<Button>();
+    repayButton = repayClose.GetComponent<Button>();
+    offersButton.onClick.AddListener(delegate {closeWindow(1);});
+    offersButton.onClick.AddListener(delegate {closeWindow(2);});
 
   }
 
   // Update is called once per frame
   void Update()
   {
-    if (Input.GetKeyDown(KeyCode.B))
+    var openThisFrame = false;
+    if (Input.GetKeyDown(KeyCode.B) && !bankScreenOn)
     {
       if (!loaning)
       {
         requestLoanAmounts();
         bankOffers.SetActive(true);
         bankScreenOn = true;
+        openThisFrame = true;
       }
-      else
-      {
-        if (activeDeadline && (GameController.day == deadlineDay)
-          && (GameController.month == deadlineMonth) && (GameController.year == deadlineYear))
-        {
-          Debug.Log("You are too late to pay. You have lost all your money. You lose.");
-          playerAttributes1.money = -1;
-        }
+    }
 
-        Debug.Log("You are already actively loaning. You have the option to pay your debts now.");
+    if (Input.GetKeyDown(KeyCode.B) && !repayScreenOn){
+      if (loaning)
+      {
         bankRepay.SetActive(true);
         repayScreenOn = true;
+        openThisFrame = true;
       }
     }
 
     if (bankScreenOn)
     {
+
       if (Input.GetKeyDown(KeyCode.Z))
       {
         // Player choose safe
+        deadlineDays = 360;
         requestLoan(safeOffer);
       }
-      else if (Input.GetKeyDown(KeyCode.X))
+      if (Input.GetKeyDown(KeyCode.X))
       {
         // choose med
+        deadlineDays = 180;
         requestLoan(mediumOffer);
       }
-      else if (Input.GetKeyDown(KeyCode.C))
+      if (Input.GetKeyDown(KeyCode.C))
       {
         // choose risky
+        deadlineDays = 90;
         requestLoan(riskyOffer);
       }
-      else if (Input.GetKeyDown(KeyCode.Escape))
+      if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.B)) && !openThisFrame)
       {
         bankOffers.SetActive(false);
         bankScreenOn = false;
@@ -97,7 +106,7 @@ public class Bank : MonoBehaviour
       {
         playerPays();
       }
-      else if (Input.GetKeyDown(KeyCode.Escape))
+      else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.B)) && !openThisFrame)
       {
         bankRepay.SetActive(false);
         repayScreenOn = false;
@@ -107,7 +116,7 @@ public class Bank : MonoBehaviour
 
   public void requestLoanAmounts()
   {
-    int monthly = playerAttributes1.monthlyIncome;
+    int monthly = playerAttributes1.monthlyProfit;
 
     // For minimum loan amounts calculations, player have less than 1k per month income
     if (monthly < 1000)
@@ -116,11 +125,11 @@ public class Bank : MonoBehaviour
     }
 
     safeOffer = monthly * 5;
-    mediumOffer = monthly * 12;
-    riskyOffer = monthly * 25;
-    safeOfferText.text = "(Z) " + safeOffer.ToString();
-    mediumOfferText.text = "(X) " + mediumOffer.ToString();
-    riskyOfferText.text = "(C) " + riskyOffer.ToString();
+    mediumOffer = monthly * 10;
+    riskyOffer = monthly * 20;
+    safeOfferText.text = "(Z) $" + safeOffer.ToString() + " 360 Day Loan";
+    mediumOfferText.text = "(X) $" + mediumOffer.ToString() + " 180 Day Loan";
+    riskyOfferText.text = "(C) $" + riskyOffer.ToString() + " 90 Day Loan";
   }
 
   // On click number 1, 2, or 3
@@ -131,11 +140,8 @@ public class Bank : MonoBehaviour
     loanAmountText.text = "$" + loanAmount.ToString();
     activeDeadline = true;
 
-    deadlineYear = GameController.year + 1;
-    deadlineMonth = GameController.month;
-    deadlineDay = GameController.day;
     loaning = true;
-    deadlineText.text = "$" + loanAmount + " Due at " +  deadlineMonth + "/" + deadlineDay + "/" + deadlineYear + ".";
+    deadlineText.text = "$" + loanAmount + " Due in " +  deadlineDays + " days";
 
     
 
@@ -143,17 +149,14 @@ public class Bank : MonoBehaviour
     bankScreenOn = false;
     loanReminder.SetActive(true);
 
-    //Show active deadline and loan amount
-    Debug.Log("Loan of $" + requestedAmount + "and deadline of " + deadlineDay + "/" + deadlineMonth + "/" + deadlineYear);
   }
 
 
   void playerPays()
   {
-    if (playerAttributes1.money >= loanAmount * 1.15)
+    if (playerAttributes1.money >= loanAmount)
     {
-      playerAttributes1.money -= (int)(loanAmount * 1.15);
-      Debug.Log("Player has successfully paid $" + loanAmount + ". Remaining balance: $" + playerAttributes1.money);
+      playerAttributes1.money -= loanAmount;
       activeDeadline = false;
       loaning = false;
       loanReminder.SetActive(false);
@@ -167,4 +170,28 @@ public class Bank : MonoBehaviour
   }
 
 
+  public void dailyUpdate(){
+    if(loaning){
+      if(deadlineDays == 0){
+        playerAttributes1.money -= loanAmount;
+        activeDeadline = false;
+        loaning = false;
+        loanReminder.SetActive(false);
+        bankRepay.SetActive(false);
+      }
+      deadlineDays -= 1;
+      deadlineText.text = "$" + loanAmount + " Due in " +  deadlineDays + " days";
+    }
+  }
+
+  public void closeWindow(int window){
+    if(window == 1){
+      bankOffers.SetActive(false);
+      bankScreenOn = false;
+    }
+    if(window == 2){
+      bankRepay.SetActive(false);
+      repayScreenOn = false;
+    }
+  }
 }

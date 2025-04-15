@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
+using Microsoft.Unity.VisualStudio.Editor;
 
 public class Auction : MonoBehaviour
 {
@@ -18,9 +19,12 @@ public class Auction : MonoBehaviour
     [SerializeField] TextMeshProUGUI auctionText;
     [SerializeField] TextMeshProUGUI purchaseText;
     [SerializeField] TextMeshProUGUI timerText;
-    [SerializeField] TextMeshProUGUI statText;
+    [SerializeField] TextMeshProUGUI propertynameText;
     [SerializeField] TextMeshProUGUI incomeText;
     [SerializeField] TextMeshProUGUI dailyCostText;
+    [SerializeField] TextMeshProUGUI sellNowText;
+    public GameObject card;
+    public GameObject propImg;
 
     public GameObject auctionbg;
     public GameObject hotel1;
@@ -116,10 +120,9 @@ public class Auction : MonoBehaviour
     
     
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        time = Time.time;
+        time = 0;
         swap = true;
         unownedBuildings = new List<(GameObject, int)>();
         attrib = player.GetComponent<PlayerAttributes>();
@@ -183,14 +186,23 @@ public class Auction : MonoBehaviour
         currentBuilding = unownedBuildings[rng].Item1;
         currentPrice = unownedBuildings[rng].Item2;
         prop = currentBuilding.GetComponent<Property>();
+        prop.randomizeExpenses();
         playerCam.transform.position = currentBuilding.transform.position;
-        statText.text = currentBuilding.name + " Stats";
-        incomeText.text = "Income/mo: $" + prop.monthlyIncome;
+        propertynameText.text = currentBuilding.name;
+        card.SetActive(true);
+        card.GetComponent<UnityEngine.UI.Image>().sprite = prop.card;
+        propImg.GetComponent<UnityEngine.UI.Image>().sprite = prop.cardpic;
+        incomeText.text = "Monthly Income: $" + prop.monthlyIncome;
         dailyCostText.text = "Daily Expenses: $" + prop.dailyExpenses;
+        sellNowText.text = "Sell: $" + (int)(prop.price * 0.8);
         auctionText.text = currentBuilding.name + " is now on Auction for $" + currentPrice;
         purchaseText.text = "Do you want to purchase? Yes (Y) No (N)";
         auctionbg.SetActive(true);
 
+    }
+
+    public void readdBuilding((GameObject, int) bldg){
+        unownedBuildings.Add(bldg);
     }
 
     // Update is called once per frame
@@ -204,7 +216,7 @@ public class Auction : MonoBehaviour
         }
         if(!swap){
             timerText.text = "" + System.Math.Round(15.0f-time,0);
-            if(Input.GetKeyDown(KeyCode.Y) && attrib.money >= currentPrice){
+            if(Input.GetKeyDown(KeyCode.Y) && attrib.money >= currentPrice && attrib.buildings.Count <= 4){
                 player.GetComponent<PlayerAttributes>().buyProperty(currentBuilding, currentPrice);
                 unownedBuildings.RemoveAt(rng);
                 time = 15.0f;
@@ -222,7 +234,9 @@ public class Auction : MonoBehaviour
             purchaseText.text = "";
             dailyCostText.text = "";
             incomeText.text = "";
-            statText.text = "";
+            sellNowText.text = "";
+            propertynameText.text = "";
+            card.SetActive(false);
             auctionbg.SetActive(false);
         }
         time += Time.deltaTime;
